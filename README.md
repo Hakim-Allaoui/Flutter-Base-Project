@@ -19,11 +19,15 @@ samples, guidance on mobile development, and a full API reference.
             
 + 📁android    
 + 📁assets
+	+ 📁fonts
+	+ 📁icons
+	+ 📁images
 + 📁lib
     + 📂pages
 		+ 📄splash.dart
 		+ 📄home.dart
     + 📂utils
-		+ 📄ads.dart
+		+ 📄ads_helper.dart
 		+ 📄tools.dart
     + 📂widgets
+		+ 📄appbar.dart
