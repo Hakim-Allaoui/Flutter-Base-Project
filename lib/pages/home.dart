@@ -21,7 +21,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: SvgPicture.asset('assets/icons/burger_menu.svg'),
+                    icon: SvgPicture.asset(
+                      'assets/icons/burger_menu.svg',
+                      height: Tools.width * 0.05,
+                    ),
                     onPressed: () {},
                   ),
                   Text(
