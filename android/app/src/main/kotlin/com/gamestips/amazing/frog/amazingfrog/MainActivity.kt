@@ -1,4 +1,4 @@
-package com.init.flutter.baseproject
+package com.gamestips.amazing.frog.amazingfrog
 
 import io.flutter.embedding.android.FlutterActivity
 

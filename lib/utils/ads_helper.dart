@@ -1,52 +1,274 @@
+import 'package:baseproject/utils/tools.dart';
+import 'package:facebook_audience_network/facebook_audience_network.dart' as fb;
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
+import 'package:native_admob_flutter/native_admob_flutter.dart';
+import 'package:native_admob_flutter/native_admob_flutter.dart' as admob;
+import 'package:unity_ads_plugin/unity_ads.dart';
+import 'package:flutter/foundation.dart';
 
 class Ads {
-  static String adNetwork = "fb";
+  //static String testDeviceId ="a47d5108-ce0c-4f2b-bb22-d7eea19727cd"; //Real device
+  static String testDeviceId = "e5c56faf-6e34-4a4c-8f5a-e8cd07f43b2a"; //AVD
 
-  String admobInter1 = "";
-  String admobInter2 = "";
-  String admobBanner1 = "";
-  String admobBanner2 = "";
-  String admobNative1 = "";
-  String admobNative2 = "";
+  static String adNetwork = "unity";
 
-  String fbInter1 = "";
-  String fbInter2 = "";
-  String fbBanner1 = "";
-  String fbBanner2 = "";
-  String fbNative1 = "";
-  String fbNative2 = "";
-  String fbNativeBanner1 = "";
-  String fbNativeBanner2 = "";
+  static String admobBanner = kDebugMode
+      ? MobileAds.bannerAdTestUnitId
+      : "ca-app-pub-8644958469423958/5133063487";
+  static String admobInter = kDebugMode
+      ? MobileAds.interstitialAdTestUnitId
+      : "ca-app-pub-8644958469423958/4326414129";
+  static String admobNative = kDebugMode
+      ? MobileAds.nativeAdTestUnitId
+      : "ca-app-pub-8644958469423958~1989677783";
+
+  InterstitialAd interstitialAd = InterstitialAd(unitId: admobInter);
+  final controller = BannerAdController();
+
+  String fbBanner = "2877463939166698_2877464112500014";
+  String fbInter = "2877463939166698_2877464479166644";
+  String fbNative = "2877463939166698_2877464832499942";
 
   String startAppId = "";
 
-  static init() {
+  static String unityGameId = "4067633";
+  String unityAdId = "video";
+
+  Widget bannerAd;
+  Widget nativeAd;
+
+  bool isInterLoaded = false;
+
+  static init() async {
+    adNetwork = await Tools.fetchRemoteConfig('adNetwork');
+    Tools.logger.i('Initialized Ad Network: $adNetwork');
     switch (adNetwork) {
       case "fb":
+        await FacebookAudienceNetwork.init(
+          testingId: testDeviceId, //optional
+        );
         break;
       case "admob":
+        await MobileAds.initialize(
+          bannerAdUnitId: admobBanner,
+          interstitialAdUnitId: admobInter,
+          nativeAdUnitId: admobNative,
+        );
+        MobileAds.setTestDeviceIds([testDeviceId]);
         break;
       case "unity":
         break;
       case "startapp":
         break;
+      default:
+        break;
+    }
+
+    UnityAds.init(gameId: unityGameId);
+  }
+
+  loadInter() async {
+    switch (adNetwork) {
+      case "fb":
+        FacebookInterstitialAd.loadInterstitialAd(
+          placementId: fbInter,
+          listener: (result, value) {
+            if (result == InterstitialAdResult.LOADED) isInterLoaded = true;
+            switch (result) {
+              case InterstitialAdResult.DISMISSED:
+                // FacebookInterstitialAd.loadInterstitialAd();
+                isInterLoaded = false;
+                break;
+              case InterstitialAdResult.LOADED:
+                isInterLoaded = true;
+                Tools.logger.e('Fb Inter loaded');
+                break;
+              default:
+                break;
+            }
+          },
+        );
+        break;
+      case "admob":
+        interstitialAd.load();
+        interstitialAd.onEvent.listen((e) {
+          final event = e.keys.first;
+          switch (event) {
+            case FullScreenAdEvent.closed:
+              // interstitialAd.load();
+              isInterLoaded = false;
+              break;
+            case FullScreenAdEvent.loaded:
+              isInterLoaded = true;
+              Tools.logger.e('Admob Inter loaded');
+              break;
+            default:
+              break;
+          }
+        });
+        break;
+      case "unity":
+        break;
+      case "startapp":
+        break;
+      default:
+        break;
     }
   }
 
-  loadInter() {}
+  showInter() async {
+    switch (adNetwork) {
+      case "fb":
+        if (isInterLoaded) FacebookInterstitialAd.showInterstitialAd();
+        break;
+      case "admob":
+        if (isInterLoaded) {
+          if (!interstitialAd.isAvailable) await interstitialAd.load();
+          if (interstitialAd.isAvailable) interstitialAd.show();
+        }
+        break;
+      case "unity":
+        break;
+      case "startapp":
+        break;
+      default:
+        break;
+    }
 
-  showInter() {}
-
-  Widget banner() {
-    return SizedBox();
+    if (!isInterLoaded) {
+      await UnityAds.showVideoAd(
+        placementId: 'video',
+        listener: (state, args) {
+          if (state == UnityAdState.complete) {
+            Tools.logger.e('User watched a video. User should get a reward!');
+          } else if (state == UnityAdState.skipped) {
+            Tools.logger.e('User cancel video.');
+          }
+        },
+      );
+    }
   }
 
-  Widget nativeBanner() {
-    return SizedBox();
+  Widget getBannerAd() {
+    switch (adNetwork) {
+      case "fb":
+        if (bannerAd == null) {
+          bannerAd = Container(
+            alignment: Alignment(0.5, 1),
+            child: FacebookBannerAd(
+              placementId: fbBanner,
+              bannerSize: fb.BannerSize.STANDARD,
+              listener: (result, value) {
+                switch (result) {
+                  case BannerAdResult.ERROR:
+                    Tools.logger.i("Fb Banner: Error: $value");
+                    break;
+                  case BannerAdResult.LOADED:
+                    Tools.logger.i("Fb Banner: Loaded: $value");
+                    break;
+                  case BannerAdResult.CLICKED:
+                    Tools.logger.i("Fb Banner: Clicked: $value");
+                    break;
+                  case BannerAdResult.LOGGING_IMPRESSION:
+                    Tools.logger.i("Fb Banner: Logging Impression: $value");
+                    break;
+                }
+              },
+            ),
+          );
+        }
+        break;
+      case "admob":
+        if (bannerAd == null) {
+          bannerAd = BannerAd(
+            controller: controller,
+            size: admob.BannerSize.ADAPTIVE,
+          );
+          controller.onEvent.listen((e) {
+            final event = e.keys.first;
+            switch (event) {
+              case BannerAdEvent.loading:
+                Tools.logger.i('Admob Banner: loading');
+                break;
+              case BannerAdEvent.loaded:
+                Tools.logger.i('Admob Banner: loaded');
+                break;
+              case BannerAdEvent.loadFailed:
+                final errorCode = e.values.first;
+                Tools.logger.i('Admob Banner: loadFailed $errorCode');
+                break;
+              case BannerAdEvent.impression:
+                Tools.logger.i('Admob Banner: ad rendered');
+                break;
+              default:
+                break;
+            }
+          });
+        }
+        break;
+      case "unity":
+        break;
+      case "startapp":
+        break;
+      default:
+        break;
+    }
+
+    return bannerAd;
   }
 
-  Widget native() {
-    return SizedBox();
+  Widget getNativeAd({double height, double width}) {
+    switch (adNetwork) {
+      case 'fb':
+        if (nativeAd == null) {
+          nativeAd = FacebookNativeAd(
+            placementId: fbNative,
+            adType: NativeAdType.NATIVE_AD,
+            width: width ?? Tools.width * 0.9,
+            height: height ?? 300,
+            backgroundColor: Colors.blue,
+            titleColor: Colors.white,
+            descriptionColor: Colors.white,
+            buttonColor: Colors.deepPurple,
+            buttonTitleColor: Colors.white,
+            buttonBorderColor: Colors.white,
+            keepAlive:
+                true, //set true if you do not want adview to refresh on widget rebuild
+            keepExpandedWhileLoading:
+                false, // set false if you want to collapse the native ad view when the ad is loading
+            expandAnimationDuraion:
+                300, //in milliseconds. Expands the adview with animation when ad is loaded
+            listener: (result, value) {
+              Tools.logger.i("Fb Native Ad: $result --> $value");
+            },
+          );
+        }
+        break;
+      case 'admob':
+        if (nativeAd == null) {
+          nativeAd = NativeAd(
+            height: height ?? 300.0,
+            width: width ?? Tools.width * 0.9,
+            body: AdTextView(style: TextStyle(color: Colors.black)),
+            headline: AdTextView(style: TextStyle(color: Colors.black)),
+            advertiser: AdTextView(style: TextStyle(color: Colors.black)),
+            attribution: AdTextView(style: TextStyle(color: Colors.black)),
+            price: AdTextView(style: TextStyle(color: Colors.black)),
+            store: AdTextView(style: TextStyle(color: Colors.black)),
+            buildLayout: adBannerLayoutBuilder,
+            loading: Text('loading'),
+            error: Text('error'),
+          );
+        }
+        break;
+      case "unity":
+        break;
+      case "startapp":
+        break;
+      default:
+        break;
+    }
+    return nativeAd;
   }
 }
