@@ -1,4 +1,4 @@
-package com.gamestips.amazing.frog.amazingfrog
+package com.pspgames.happy.chick.emulator
 
 import io.flutter.embedding.android.FlutterActivity
 

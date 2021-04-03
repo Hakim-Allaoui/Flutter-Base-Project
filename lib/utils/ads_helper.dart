@@ -1,11 +1,11 @@
 import 'package:baseproject/utils/tools.dart';
-import 'package:facebook_audience_network/facebook_audience_network.dart' as fb;
 import 'package:facebook_audience_network/facebook_audience_network.dart';
-import 'package:flutter/material.dart';
+import 'package:facebook_audience_network/facebook_audience_network.dart' as fb;
 import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart' as admob;
+import 'package:flutter/material.dart';
 import 'package:unity_ads_plugin/unity_ads.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 
 class Ads {
   //static String testDeviceId ="a47d5108-ce0c-4f2b-bb22-d7eea19727cd"; //Real device
@@ -13,26 +13,28 @@ class Ads {
 
   static String adNetwork = "unity";
 
+  static final bool kDebugMode = true;
+
   static String admobBanner = kDebugMode
       ? MobileAds.bannerAdTestUnitId
-      : "ca-app-pub-7200723121807417/5659886523";
+      : "ca-app-pub-7200723121807417/5276210314";
   static String admobInter = kDebugMode
       ? MobileAds.interstitialAdTestUnitId
-      : "ca-app-pub-7200723121807417/6781396508";
+      : "ca-app-pub-7200723121807417/9023883633";
   static String admobNative = kDebugMode
       ? MobileAds.nativeAdTestUnitId
-      : "ca-app-pub-7200723121807417/7902906487";
+      : "ca-app-pub-7200723121807417/6397720290";
 
   InterstitialAd interstitialAd = InterstitialAd(unitId: admobInter);
   final controller = BannerAdController();
 
-  String fbBanner = "2877463939166698_2877464112500014";
-  String fbInter = "2877463939166698_2877464479166644";
-  String fbNative = "2877463939166698_2877464832499942";
+  String fbBanner = "545635493088861_545635596422184";
+  String fbInter = "545635493088861_545635593088851";
+  String fbNative = "545635493088861_545635583088852";
 
   String startAppId = "";
 
-  static String unityGameId = "4067633";
+  static String unityGameId = "4075414";
   String unityAdId = "video";
 
   Widget bannerAd;
@@ -82,7 +84,7 @@ class Ads {
         FacebookInterstitialAd.loadInterstitialAd(
           placementId: fbInter,
           listener: (result, value) {
-                Tools.logger.e('Fb Inter: $result\nvalue: $value');
+            Tools.logger.e('Fb Inter: $result\nvalue: $value');
             switch (result) {
               case InterstitialAdResult.DISMISSED:
                 // FacebookInterstitialAd.loadInterstitialAd();
@@ -101,7 +103,7 @@ class Ads {
         interstitialAd.load();
         interstitialAd.onEvent.listen((e) {
           final event = e.keys.first;
-              Tools.logger.e('Admob Inter: $event');
+          Tools.logger.e('Admob Inter: $event');
           switch (event) {
             case FullScreenAdEvent.closed:
               // interstitialAd.load();
@@ -250,12 +252,12 @@ class Ads {
             buttonColor: Colors.deepPurple,
             buttonTitleColor: Colors.white,
             buttonBorderColor: Colors.white,
-            keepAlive:
-                true, //set true if you do not want adview to refresh on widget rebuild
-            keepExpandedWhileLoading:
-                false, // set false if you want to collapse the native ad view when the ad is loading
-            expandAnimationDuraion:
-                300, //in milliseconds. Expands the adview with animation when ad is loaded
+            keepAlive: true,
+            //set true if you do not want adview to refresh on widget rebuild
+            keepExpandedWhileLoading: false,
+            // set false if you want to collapse the native ad view when the ad is loading
+            expandAnimationDuraion: 300,
+            //in milliseconds. Expands the adview with animation when ad is loaded
             listener: (result, value) {
               Tools.logger.i("Fb Native Ad: $result --> $value");
             },

@@ -1,14 +1,11 @@
 import 'package:baseproject/pages/home.dart';
-import 'package:baseproject/utils/ads_helper.dart';
 import 'package:baseproject/utils/navigator.dart';
 import 'package:baseproject/utils/tools.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Tools.initFire();
   await Tools.initAppSettings();
-  await Ads.init();
   runApp(MyApp());
 }
 
