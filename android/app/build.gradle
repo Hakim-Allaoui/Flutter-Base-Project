@@ -47,12 +47,6 @@ android {
             storePassword keystoreProperties['storePassword']
         }
         /*debug {
-            storeFile file('C:\\Users\\HAKIM\\.android\\debug.jks')
-            //storePassword 'keyhakim1'
-            storePassword keystoreProperties['storePassword']
-            //keyPassword 'keyhakim1'
-            keyPassword keystoreProperties['keyPassword']
-            keyAlias 'key'
         }*/
     }
 
@@ -84,7 +78,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.multidex:multidex: 2.0.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
