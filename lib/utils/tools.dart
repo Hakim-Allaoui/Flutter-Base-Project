@@ -7,6 +7,7 @@ import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:device_info/device_info.dart';
 
 class Tools {
   static double height = 781.0909090909091;
@@ -22,8 +23,11 @@ class Tools {
     buildNumber: ' ',
   );
 
+  static AndroidDeviceInfo androidInfo;
+
   static initAppSettings() async {
     await initAppInfo();
+    await getDeviceInfo();
     cleanStatusBar();
 
     logger.i("""
@@ -38,6 +42,16 @@ class Tools {
   static Future<void> initAppInfo() async {
     final PackageInfo info = await PackageInfo.fromPlatform();
     packageInfo = info;
+  }
+
+  static Future<void> getDeviceInfo() async {
+    androidInfo = await DeviceInfoPlugin().androidInfo;
+    var release = androidInfo.version.release;
+    var sdkInt = androidInfo.version.sdkInt;
+    var manufacturer = androidInfo.manufacturer;
+    var model = androidInfo.model;
+    Tools.logger.i(
+        'Android: $release, SDK: $sdkInt, manufacturer: $manufacturer ,model: $model');
   }
 
   static launchURL(String url) async {
@@ -183,5 +197,4 @@ class Tools {
       logger.e(e.toString());
     }
   }
-
 }

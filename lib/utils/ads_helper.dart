@@ -15,13 +15,13 @@ class Ads {
 
   static String admobBanner = kDebugMode
       ? MobileAds.bannerAdTestUnitId
-      : "ca-app-pub-8644958469423958/5133063487";
+      : "ca-app-pub-7200723121807417/5659886523";
   static String admobInter = kDebugMode
       ? MobileAds.interstitialAdTestUnitId
-      : "ca-app-pub-8644958469423958/4326414129";
+      : "ca-app-pub-7200723121807417/6781396508";
   static String admobNative = kDebugMode
       ? MobileAds.nativeAdTestUnitId
-      : "ca-app-pub-8644958469423958~1989677783";
+      : "ca-app-pub-7200723121807417/7902906487";
 
   InterstitialAd interstitialAd = InterstitialAd(unitId: admobInter);
   final controller = BannerAdController();
@@ -40,13 +40,19 @@ class Ads {
 
   bool isInterLoaded = false;
 
+  static bool isVersionUpToLOLLIPOP() {
+    bool isVersionUp = true;
+    if (Tools.androidInfo.version.sdkInt <= 23) isVersionUp = false;
+    return isVersionUp;
+  }
+
   static init() async {
     adNetwork = await Tools.fetchRemoteConfig('adNetwork');
     Tools.logger.i('Initialized Ad Network: $adNetwork');
     switch (adNetwork) {
       case "fb":
         await FacebookAudienceNetwork.init(
-          testingId: testDeviceId, //optional
+          testingId: testDeviceId,
         );
         break;
       case "admob":
@@ -65,7 +71,9 @@ class Ads {
         break;
     }
 
-    UnityAds.init(gameId: unityGameId);
+    if (isVersionUpToLOLLIPOP()) {
+      UnityAds.init(gameId: unityGameId);
+    }
   }
 
   loadInter() async {
@@ -74,7 +82,7 @@ class Ads {
         FacebookInterstitialAd.loadInterstitialAd(
           placementId: fbInter,
           listener: (result, value) {
-            if (result == InterstitialAdResult.LOADED) isInterLoaded = true;
+                Tools.logger.e('Fb Inter: $result\nvalue: $value');
             switch (result) {
               case InterstitialAdResult.DISMISSED:
                 // FacebookInterstitialAd.loadInterstitialAd();
@@ -82,7 +90,6 @@ class Ads {
                 break;
               case InterstitialAdResult.LOADED:
                 isInterLoaded = true;
-                Tools.logger.e('Fb Inter loaded');
                 break;
               default:
                 break;
@@ -94,6 +101,7 @@ class Ads {
         interstitialAd.load();
         interstitialAd.onEvent.listen((e) {
           final event = e.keys.first;
+              Tools.logger.e('Admob Inter: $event');
           switch (event) {
             case FullScreenAdEvent.closed:
               // interstitialAd.load();
@@ -101,7 +109,6 @@ class Ads {
               break;
             case FullScreenAdEvent.loaded:
               isInterLoaded = true;
-              Tools.logger.e('Admob Inter loaded');
               break;
             default:
               break;
@@ -136,7 +143,7 @@ class Ads {
         break;
     }
 
-    if (!isInterLoaded) {
+    if (!isInterLoaded && isVersionUpToLOLLIPOP()) {
       await UnityAds.showVideoAd(
         placementId: 'video',
         listener: (state, args) {
@@ -155,7 +162,17 @@ class Ads {
       case "fb":
         if (bannerAd == null) {
           bannerAd = Container(
-            alignment: Alignment(0.5, 1),
+            height: 50.0,
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Colors.amber,
+                ),
+                bottom: BorderSide(
+                  color: Colors.amber,
+                ),
+              ),
+            ),
             child: FacebookBannerAd(
               placementId: fbBanner,
               bannerSize: fb.BannerSize.STANDARD,

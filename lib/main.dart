@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Base Flutter App',
+      title: Tools.packageInfo.appName,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
