@@ -1,4 +1,4 @@
-package com.pspgames.happy.chick.emulator
+package com.movies.stremio.downloader.hd
 
 import io.flutter.embedding.android.FlutterActivity
 

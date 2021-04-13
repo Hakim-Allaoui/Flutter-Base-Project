@@ -6,16 +6,15 @@ import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:device_info/device_info.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class Tools {
   static double height = 781.0909090909091;
   static double width = 392.72727272727275;
 
-  static FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // static FirebaseMessaging messaging = FirebaseMessaging.instance;
   static RemoteConfig remoteConfig;
   static AndroidDeviceInfo androidInfo;
 
@@ -25,7 +24,7 @@ class Tools {
     await getDeviceInfo();
     cleanStatusBar();
     await Ads.init();
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     logger.i("""
     height      : $height
@@ -199,7 +198,7 @@ class Tools {
   }
 
   //Firebase messaging
-  static requestMessagingPermission() async {
+  /*static requestMessagingPermission() async {
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
       announcement: false,
@@ -227,14 +226,14 @@ class Tools {
             'Message also contained a notification: ${message.notification}');
       }
     });
-  }
+  }*/
 }
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+/*Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   // await Firebase.initializeApp();
 
   Tools.logger.i("Handling a background message: ${message.messageId}");
-}
+}*/
 

@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pspgames.happy.chick.emulator">
+    package="com.movies.stremio.downloader.hd">
 
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="Tips for Amazing frog"
+        android:label="Guide for Streamio 2021"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -42,7 +42,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-7200723121807417~5416343947"/>
+            android:value="ca-app-pub-8644958469423958~1789720438"/>
 
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

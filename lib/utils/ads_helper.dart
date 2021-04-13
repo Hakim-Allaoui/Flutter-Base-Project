@@ -11,30 +11,31 @@ class Ads {
   //static String testDeviceId ="a47d5108-ce0c-4f2b-bb22-d7eea19727cd"; //Real device
   static String testDeviceId = "e5c56faf-6e34-4a4c-8f5a-e8cd07f43b2a"; //AVD
 
-  static String adNetwork = "unity";
+  static String adNetwork = "fb";
 
-  static final bool kDebugMode = true;
+  static final bool kDebugMode = false;
 
+  //Admob
   static String admobBanner = kDebugMode
       ? MobileAds.bannerAdTestUnitId
-      : "ca-app-pub-7200723121807417/5276210314";
+      : "ca-app-pub-8644958469423958/5495023541";
   static String admobInter = kDebugMode
       ? MobileAds.interstitialAdTestUnitId
-      : "ca-app-pub-7200723121807417/9023883633";
+      : "ca-app-pub-8644958469423958/8688163095";
   static String admobNative = kDebugMode
       ? MobileAds.nativeAdTestUnitId
-      : "ca-app-pub-7200723121807417/6397720290";
+      : "ca-app-pub-8644958469423958/6061999759";
 
   InterstitialAd interstitialAd = InterstitialAd(unitId: admobInter);
   final controller = BannerAdController();
 
+  //Facebook Ads
   String fbBanner = "545635493088861_545635596422184";
   String fbInter = "545635493088861_545635593088851";
   String fbNative = "545635493088861_545635583088852";
 
-  String startAppId = "";
 
-  static String unityGameId = "4075414";
+  static String unityGameId = "4084681";
   String unityAdId = "video";
 
   Widget bannerAd;
@@ -133,8 +134,8 @@ class Ads {
         break;
       case "admob":
         if (isInterLoaded) {
-          if (!interstitialAd.isAvailable) await interstitialAd.load();
-          if (interstitialAd.isAvailable) interstitialAd.show();
+          if (!interstitialAd.isLoaded) await interstitialAd.load();
+          if (interstitialAd.isLoaded) interstitialAd.show();
         }
         break;
       case "unity":

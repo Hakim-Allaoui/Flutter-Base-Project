@@ -19,36 +19,36 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
+  
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.0
   firebase_core:
   firebase_messaging:
   firebase_remote_config:
   flutter_svg:
-  # flutter_swiper: ^1.1.6
   page_slider: ^0.0.2
   getwidget: ^1.2.4
-  package_info: ^2.0.0
+  package_info:
   url_launcher:
-  path_provider: ^2.0.1
+  path_provider:
   flutter_widget_from_html: ^0.5.2+1
-  share: ^2.0.1
+  share:
   device_info: ^1.0.0
   
   #Ads plugins
-  native_admob_flutter: ^1.1.0
+  native_admob_flutter:
   facebook_audience_network: ^0.9.0
-  unity_ads_plugin: ^0.2.1
+  unity_ads_plugin: ^0.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: #flutter pub run flutter_launcher_icons:main
   flutter_launcher_name: #flutter pub run flutter_launcher_name:main
-  logger: ^1.0.0
+  logger:
 
 
 flutter_icons:
@@ -57,7 +57,7 @@ flutter_icons:
   image_path: "assets/icon.png"
   
 flutter_launcher_name:
-  name: "Tips for Amazing frog"
+  name: "Guide for Streamio 2021"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
