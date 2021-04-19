@@ -30,9 +30,9 @@ class Ads {
   final controller = BannerAdController();
 
   //Facebook Ads
-  String fbBanner = "545635493088861_545635596422184";
-  String fbInter = "545635493088861_545635593088851";
-  String fbNative = "545635493088861_545635583088852";
+  String fbBanner = "521198772623983_521198852623975";
+  String fbInter = "521198772623983_521198842623976";
+  String fbNative = "521198772623983_521198845957309";
 
 
   static String unityGameId = "4084681";
@@ -50,7 +50,7 @@ class Ads {
   }
 
   static init() async {
-    adNetwork = await Tools.fetchRemoteConfig('adNetwork');
+    adNetwork = await Tools.fetchRemoteConfig('${Tools.packageInfo.packageName.replaceAll(".", "_")}_adNetwork');
     Tools.logger.i('Initialized Ad Network: $adNetwork');
     switch (adNetwork) {
       case "fb":

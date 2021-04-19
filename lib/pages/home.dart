@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     // Tools.checkAppVersion(context);
+    Tools.checkAppVersion(context);
     ads = new Ads();
     ads.loadInter();
   }

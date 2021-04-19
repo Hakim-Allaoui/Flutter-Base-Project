@@ -150,6 +150,7 @@ class Tools {
                             ),
                           ],
                         ),
+                        SizedBox(width: 10.0,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

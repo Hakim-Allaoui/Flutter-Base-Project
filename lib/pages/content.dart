@@ -41,7 +41,9 @@ class _ContentScreenState extends State<ContentScreen> {
                   key: _sliderKey,
                   pages: articles.map((e) {
                     return Scrollbar(
+
                       child: SingleChildScrollView(
+
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: HtmlWidget(
