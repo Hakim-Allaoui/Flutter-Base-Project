@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.movies.stremio.downloader.hd">
+    package="com.fridaynight.funkin.mod.musicgame">
 
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="Guide for Streamio 2021"
+        android:label="Friday Night Funkin Mod Tips and Guide"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -42,7 +42,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8644958469423958~1789720438"/>
+            android:value="ca-app-pub-8644958469423958~3732209684"/>
 
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

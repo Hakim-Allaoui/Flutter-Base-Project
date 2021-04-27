@@ -51,7 +51,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.movies.stremio.downloader.hd"
+        applicationId "com.fridaynight.funkin.mod.musicgame"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()

@@ -1,6 +1,7 @@
 import 'package:baseproject/utils/tools.dart';
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:facebook_audience_network/facebook_audience_network.dart' as fb;
+import 'package:flutter/foundation.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart' as admob;
 import 'package:flutter/material.dart';
@@ -13,29 +14,30 @@ class Ads {
 
   static String adNetwork = "fb";
 
-  static final bool kDebugMode = false;
+  static final bool debugMode = kDebugMode;
 
   //Admob
-  static String admobBanner = kDebugMode
+  static String admobBanner = debugMode
       ? MobileAds.bannerAdTestUnitId
-      : "ca-app-pub-8644958469423958/5495023541";
-  static String admobInter = kDebugMode
+      : "ca-app-pub-8644958469423958/9305289938";
+  static String admobInter = debugMode
       ? MobileAds.interstitialAdTestUnitId
-      : "ca-app-pub-8644958469423958/8688163095";
-  static String admobNative = kDebugMode
+      : "ca-app-pub-8644958469423958/8870993904";
+  static String admobNative = debugMode
       ? MobileAds.nativeAdTestUnitId
-      : "ca-app-pub-8644958469423958/6061999759";
+      : "ca-app-pub-8644958469423958/4853719662";
 
   InterstitialAd interstitialAd = InterstitialAd(unitId: admobInter);
   final controller = BannerAdController();
 
   //Facebook Ads
-  String fbBanner = "521198772623983_521198852623975";
-  String fbInter = "521198772623983_521198842623976";
-  String fbNative = "521198772623983_521198845957309";
+
+  String fbBanner = debugMode ? "IMG_16_9_APP_INSTALL#226395002587502_226395042587498" : "226395002587502_226395042587498";
+  String fbInter = debugMode ? "IMG_16_9_APP_INSTALL#226395002587502_226395035920832" : "226395002587502_226395035920832";
+  String fbNative = debugMode ? "IMG_16_9_APP_INSTALL#226395002587502_226395039254165" : "226395002587502_226395039254165";
 
 
-  static String unityGameId = "4084681";
+  static String unityGameId = "4106983";
   String unityAdId = "video";
 
   Widget bannerAd;
@@ -74,8 +76,11 @@ class Ads {
         break;
     }
 
-    if (isVersionUpToLOLLIPOP()) {
-      UnityAds.init(gameId: unityGameId);
+    if (isVersionUpToLOLLIPOP() && !debugMode) {
+      UnityAds.init(
+        gameId: unityGameId,
+        listener: (state, args) => Tools.logger.i('Unity Ads: $state => $args'),
+      );
     }
   }
 
@@ -146,17 +151,30 @@ class Ads {
         break;
     }
 
-    if (!isInterLoaded && isVersionUpToLOLLIPOP()) {
-      await UnityAds.showVideoAd(
-        placementId: 'video',
-        listener: (state, args) {
-          if (state == UnityAdState.complete) {
-            Tools.logger.e('User watched a video. User should get a reward!');
-          } else if (state == UnityAdState.skipped) {
-            Tools.logger.e('User cancel video.');
-          }
-        },
-      );
+
+    if (isVersionUpToLOLLIPOP()) {
+      if (!isInterLoaded && !interstitialAd.isLoaded) {
+        Tools.logger.wtf(
+            "Adsssssss: isInterLoaded: $isInterLoaded interstitialAd.isLoaded: ${interstitialAd.isLoaded}");
+        if (!debugMode) {
+          await UnityAds.showVideoAd(
+            placementId: 'video',
+            listener: (state, args) {
+              if (state == UnityAdState.complete) {
+                Tools.logger
+                    .i('User watched a video. User should get a reward!');
+              } else if (state == UnityAdState.skipped) {
+                Tools.logger.i('User cancel video.');
+              }
+            },
+          );
+        } else {
+          Tools.logger.wtf('Unity Ads (Debug blocking) (kDebugMode)');
+        }
+      }
+    } else {
+      Tools.logger
+          .wtf('Unity Ads instead (SDK blocking) (isVersionUpToLOLLIPOP)');
     }
   }
 

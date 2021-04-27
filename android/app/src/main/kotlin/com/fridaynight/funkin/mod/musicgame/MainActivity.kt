@@ -1,4 +1,4 @@
-package com.movies.stremio.downloader.hd
+package com.fridaynight.funkin.mod.musicgame
 
 import io.flutter.embedding.android.FlutterActivity
 
