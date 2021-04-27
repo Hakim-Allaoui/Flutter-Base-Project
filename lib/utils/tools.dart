@@ -29,7 +29,7 @@ class Tools {
     logger.i("""
     height      : $height
     width       : $width
-    packageName : ${packageInfo.packageName}
+    packageName : ${packageInfo.packageName} (${packageInfo.packageName.replaceAll('.', '_')}_adNetwork)
     appName     : ${packageInfo.appName}
     buildNumber : ${packageInfo.buildNumber}
     version     : ${packageInfo.version}""");

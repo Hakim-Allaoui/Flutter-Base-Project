@@ -85,7 +85,7 @@ class Ads {
         FacebookInterstitialAd.loadInterstitialAd(
           placementId: fbInter,
           listener: (result, value) {
-            Tools.logger.e('Fb Inter: $result\nvalue: $value');
+            Tools.logger.i('Fb Inter: $result\nvalue: $value');
             switch (result) {
               case InterstitialAdResult.DISMISSED:
                 // FacebookInterstitialAd.loadInterstitialAd();
