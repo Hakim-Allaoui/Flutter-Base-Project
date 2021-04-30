@@ -104,7 +104,7 @@ class Tools {
       double currentVersion =
           double.parse(newVersion.trim().replaceAll(".", ""));
       double installedVersion =
-          double.parse(packageInfo.version.trim().replaceAll(".", ""));
+          double.parse(packageInfo.version.trim().replaceAll(".", "") ?? 100);
 
       logger.i(
           'Current version: $currentVersion \nInstalled version: $installedVersion');

@@ -1,4 +1,4 @@
-package com.fridaynight.funkin.mod.musicgame
+package com.modgames.qooapp.mod.tips
 
 import io.flutter.embedding.android.FlutterActivity
 

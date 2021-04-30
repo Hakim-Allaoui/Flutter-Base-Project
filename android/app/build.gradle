@@ -51,7 +51,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.fridaynight.funkin.mod.musicgame"
+        applicationId "com.modgames.qooapp.mod.tips"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()

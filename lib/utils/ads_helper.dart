@@ -19,25 +19,25 @@ class Ads {
   //Admob
   static String admobBanner = debugMode
       ? MobileAds.bannerAdTestUnitId
-      : "ca-app-pub-8644958469423958/9305289938";
+      : "ca-app-pub-8644958469423958/2560041892";
   static String admobInter = debugMode
       ? MobileAds.interstitialAdTestUnitId
-      : "ca-app-pub-8644958469423958/8870993904";
+      : "ca-app-pub-8644958469423958/1246960223";
   static String admobNative = debugMode
       ? MobileAds.nativeAdTestUnitId
-      : "ca-app-pub-8644958469423958/4853719662";
+      : "ca-app-pub-8644958469423958/3681551874";
 
   InterstitialAd interstitialAd = InterstitialAd(unitId: admobInter);
   final controller = BannerAdController();
 
   //Facebook Ads
 
-  String fbBanner = debugMode ? "IMG_16_9_APP_INSTALL#226395002587502_226395042587498" : "226395002587502_226395042587498";
-  String fbInter = debugMode ? "IMG_16_9_APP_INSTALL#226395002587502_226395035920832" : "226395002587502_226395035920832";
-  String fbNative = debugMode ? "IMG_16_9_APP_INSTALL#226395002587502_226395039254165" : "226395002587502_226395039254165";
+  String fbBanner = debugMode ? "IMG_16_9_APP_INSTALL#119190503518598_119190563518592" : "119190503518598_119190563518592";
+  String fbInter = debugMode ? "IMG_16_9_APP_INSTALL#119190503518598_119190556851926" : "119190503518598_119190556851926";
+  String fbNative = debugMode ? "IMG_16_9_APP_INSTALL#119190503518598_119190566851925" : "119190503518598_119190566851925";
 
 
-  static String unityGameId = "4106983";
+  static String unityGameId = "4111392";
   String unityAdId = "video";
 
   Widget bannerAd;

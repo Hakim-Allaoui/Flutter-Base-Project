@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fridaynight.funkin.mod.musicgame">
+    package="com.modgames.qooapp.mod.tips">
 
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="Friday Night Funkin Mod Tips and Guide"
+        android:label="Mod QooApp app"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
